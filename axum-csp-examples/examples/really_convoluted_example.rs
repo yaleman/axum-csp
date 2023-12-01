@@ -1,5 +1,4 @@
 use axum::extract::State;
-use axum::http::HeaderValue;
 use axum::middleware::{from_fn_with_state, Next};
 use axum::response::Response;
 use axum::routing::get;
@@ -38,8 +37,7 @@ pub async fn cspheaders_layer(
     if let Some(rule) = url_matcher {
         let headers = response.headers_mut();
         if rule.matcher.is_match(&uri) {
-            let header: HeaderValue = rule.into();
-            headers.insert("Content-Security-Policy", header);
+            headers.insert(axum::http::header::CONTENT_SECURITY_POLICY, rule.into());
         }
     } else {
         eprintln!("didn't match uri");

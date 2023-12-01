@@ -1,4 +1,4 @@
-use axum::http::{HeaderValue, StatusCode};
+use axum::http::StatusCode;
 use axum::middleware::{from_fn, Next};
 use axum::response::Response;
 use axum::routing::get;
@@ -24,8 +24,8 @@ pub async fn cspheaders_layer(
     // add the header
     let headers = response.headers_mut();
     headers.insert(
-        "Content-Security-Policy",
-        HeaderValue::from_str(&directive.to_string()).unwrap(),
+        axum::http::header::CONTENT_SECURITY_POLICY,
+        directive.into(),
     );
 
     Ok(response)

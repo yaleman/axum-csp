@@ -119,10 +119,11 @@ impl CspDirective {
 impl ToString for CspDirective {
     fn to_string(&self) -> String {
         let mut res = String::new();
-        for val in self.values.iter() {
-            res.push_str(&format!(" {}", String::from(val.to_owned())));
-        }
-        res.push(';');
+        res.push_str(self.directive_type.as_ref());
+        self.values
+            .iter()
+            .copied()
+            .for_each(|v| res.push_str(&format!(" {}", v)));
         res
     }
 }
@@ -186,13 +187,13 @@ impl From<CspUrlMatcher> for HeaderValue {
     fn from(input: CspUrlMatcher) -> HeaderValue {
         let mut res = String::new();
         for directive in input.directives {
-            res.push_str(&format!(" {} ", String::from(directive.directive_type)));
+            res.push_str(directive.directive_type.as_ref());
             for val in directive.values {
                 res.push_str(&format!(" {}", String::from(val)));
             }
-            res.push(';');
+            res.push_str("; ");
         }
-        HeaderValue::from_str(&res).unwrap()
+        HeaderValue::from_str(res.trim()).unwrap()
     }
 }
 
@@ -256,6 +257,12 @@ impl From<CspValue> for String {
     }
 }
 
+impl Display for CspValue {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", String::from(*self))
+    }
+}
+
 #[derive(Clone, Debug, Default)]
 pub struct CspSetBuilder {
     pub directive_map: HashMap<CspDirectiveType, Vec<CspValue>>,
@@ -297,9 +304,9 @@ impl CspSetBuilder {
             values.into_iter().for_each(|val| {
                 res.push_str(&format!(" {}", String::from(val)));
             });
-
             res.push(';');
         });
-        HeaderValue::from_str(res.trim()).unwrap()
+        res = res.trim().to_string();
+        HeaderValue::from_str(&res).unwrap()
     }
 }
