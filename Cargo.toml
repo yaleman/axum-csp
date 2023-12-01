@@ -1,0 +1,27 @@
+
+[workspace]
+members = [".", "axum-csp-examples"]
+
+[package]
+name = "axum-csp"
+description = "Some widgets for use with axum to create Content-Security-Policy headers and reduce silly typos."
+readme = "README.md"
+version = "0.0.8-dev"
+edition = "2021"
+license = "MIT"
+repository = "https://github.com/yaleman/axum-csp"
+keywords = [
+    "http",
+    "server",
+    "tokio",
+    "api",
+    "axum",
+    "tower",
+    "csp",
+    "content-security-policy",
+]
+categories = ["network-programming"]
+
+[dependencies]
+axum = { version = "^0.7.0", default-features = false }
+regex = "1.10.2"
