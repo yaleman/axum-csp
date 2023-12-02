@@ -42,5 +42,6 @@ semgrep:
 .PHONY: prep
 prep: ## run things before push/release/etc
 prep: docs codespell test build semgrep
+	cargo clippy
 	cargo outdated -R
 	cargo audit

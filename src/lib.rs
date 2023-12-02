@@ -1,12 +1,7 @@
 //! Some items for implementing [Content-Security-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/) headers with [axum](https://crates.io/crates/axum)
-#![warn(clippy::complexity)]
-// #![warn(clippy::cargo)]
-#![warn(clippy::perf)]
 #![deny(unsafe_code)]
-#![allow(clippy::multiple_crate_versions)]
 
 use axum::http::HeaderValue;
-
 use regex::RegexSet;
 use std::collections::HashMap;
 use std::fmt::{Debug, Display, Formatter};
@@ -118,19 +113,20 @@ impl CspDirective {
 
 impl ToString for CspDirective {
     fn to_string(&self) -> String {
-        let mut res = String::new();
-        res.push_str(self.directive_type.as_ref());
+        let mut res = String::from(self.directive_type.as_ref());
         self.values
             .iter()
-            .copied()
-            .for_each(|v| res.push_str(&format!(" {}", v)));
+            .for_each(|v| res.push_str(&format!(" {}", String::from(v.to_owned()))));
         res
     }
 }
 
 impl From<CspDirective> for HeaderValue {
     fn from(input: CspDirective) -> HeaderValue {
-        HeaderValue::from_str(&input.to_string()).unwrap()
+        match HeaderValue::from_str(&input.to_string()) {
+            Ok(val) => val,
+            Err(e) => panic!("Failed to build HeaderValue from CspDirective: {}", e),
+        }
     }
 }
 
@@ -197,7 +193,7 @@ impl From<CspUrlMatcher> for HeaderValue {
     }
 }
 
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd)]
+#[derive(Clone, Debug, Eq, PartialEq, Ord, PartialOrd)]
 /// Enum for [CSP source values](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/Sources#sources)
 pub enum CspValue {
     None,
@@ -212,25 +208,25 @@ pub enum CspValue {
     /// Experimental!
     UnsafeAllowRedirects,
     Host {
-        value: &'static str,
+        value: String,
     },
     SchemeHttps,
     SchemeHttp,
     SchemeData,
     SchemeOther {
-        value: &'static str,
+        value: String,
     },
     Nonce {
-        value: &'static str,
+        value: String,
     },
     Sha256 {
-        value: &'static str,
+        value: String,
     },
     Sha384 {
-        value: &'static str,
+        value: String,
     },
     Sha512 {
-        value: &'static str,
+        value: String,
     },
 }
 
@@ -257,18 +253,13 @@ impl From<CspValue> for String {
     }
 }
 
-impl Display for CspValue {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", String::from(*self))
-    }
-}
-
 #[derive(Clone, Debug, Default)]
-pub struct CspSetBuilder {
+/// Builder that ends up in a HeaderValue
+pub struct CspHeaderBuilder {
     pub directive_map: HashMap<CspDirectiveType, Vec<CspValue>>,
 }
 
-impl CspSetBuilder {
+impl CspHeaderBuilder {
     pub fn new() -> Self {
         Self {
             directive_map: HashMap::new(),
@@ -287,26 +278,30 @@ impl CspSetBuilder {
     }
 
     pub fn finish(self) -> HeaderValue {
-        let mut res = String::new();
         let mut keys = self
             .directive_map
             .keys()
             .collect::<Vec<&CspDirectiveType>>();
         keys.sort();
 
-        keys.iter().for_each(|directive| {
-            res.push_str(&format!(" {}", directive));
-            let mut values = match self.directive_map.get(directive) {
-                Some(val) => val.to_owned(),
-                None => vec![],
-            };
-            values.sort();
-            values.into_iter().for_each(|val| {
-                res.push_str(&format!(" {}", String::from(val)));
-            });
-            res.push(';');
-        });
-        res = res.trim().to_string();
-        HeaderValue::from_str(&res).unwrap()
+        let directive_strings: Vec<String> = keys
+            .iter()
+            .map(|directive| {
+                let mut directive_string = String::new();
+                directive_string.push_str(&format!(" {}", directive));
+                let mut values = match self.directive_map.get(directive) {
+                    Some(val) => val.to_owned(),
+                    None => vec![],
+                };
+                values.sort();
+                values.into_iter().for_each(|val| {
+                    directive_string.push_str(&format!(" {}", String::from(val)));
+                });
+                directive_string.trim().to_string()
+            })
+            .collect();
+
+        HeaderValue::from_str(&directive_strings.join("; "))
+            .expect("Failed to build header value from directive strings")
     }
 }

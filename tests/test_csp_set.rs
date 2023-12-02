@@ -1,8 +1,8 @@
-use axum_csp::{CspDirectiveType, CspSetBuilder, CspValue};
+use axum_csp::{CspDirectiveType, CspHeaderBuilder, CspValue};
 
 #[test]
 pub fn test_csp_set_ordering() {
-    let builder = CspSetBuilder::new()
+    let builder = CspHeaderBuilder::new()
         .add(
             CspDirectiveType::ScriptSource,
             // this tests that the ordering is stable
@@ -12,6 +12,6 @@ pub fn test_csp_set_ordering() {
     let res = builder.finish();
     assert_eq!(
         res,
-        "default-src 'self'; script-src 'self' 'unsafe-inline';".to_string()
+        "default-src 'self'; script-src 'self' 'unsafe-inline'".to_string()
     );
 }
