@@ -23,5 +23,5 @@ keywords = [
 categories = ["network-programming"]
 
 [dependencies]
-axum = { version = "^0.7.0", default-features = false }
+axum = { version = "^0.7.2", default-features = false }
 regex = "1.10.2"
