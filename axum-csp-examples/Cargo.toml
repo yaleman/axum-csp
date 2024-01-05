@@ -7,7 +7,7 @@ edition = "2021"
 [dependencies]
 
 axum-csp = { path = "../" }
-axum = { version = "^0.7.2", default-features = false, features = [
+axum = { version = "^0.7.3", default-features = false, features = [
     "original-uri",
     "tokio",
     "http1",
