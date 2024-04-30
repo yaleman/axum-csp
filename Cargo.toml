@@ -23,5 +23,9 @@ keywords = [
 categories = ["network-programming"]
 
 [dependencies]
+axum = { workspace = true, default-features = false }
+regex = { workspace = true }
+
+[workspace.dependencies]
 axum = { version = "^0.7.5", default-features = false }
 regex = "1.10.4"
