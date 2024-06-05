@@ -10,7 +10,7 @@ version = "0.0.8"
 edition = "2021"
 license = "MIT"
 repository = "https://github.com/yaleman/axum-csp"
-keywords = ["http", "axum", "tower", "csp", "content-security-policy"]
+keywords = ["http", "axum", "tower", "csp"]
 categories = ["network-programming"]
 
 [dependencies]
