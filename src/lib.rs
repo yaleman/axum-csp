@@ -12,6 +12,7 @@ pub enum CspDirectiveType {
     ConnectSrc,
     DefaultSrc,
     FontSrc,
+    FrameSrc,
     ImgSrc,
     ManifestSrc,
     MediaSrc,
@@ -45,6 +46,7 @@ impl AsRef<str> for CspDirectiveType {
             CspDirectiveType::ChildSrc => "child-src",
             CspDirectiveType::ConnectSrc => "connect-src",
             CspDirectiveType::DefaultSrc => "default-src",
+            CspDirectiveType::FrameSrc => "frame-src",
             CspDirectiveType::FontSrc => "font-src",
             CspDirectiveType::ImgSrc => "img-src",
             CspDirectiveType::ManifestSrc => "manifest-src",
@@ -111,13 +113,19 @@ impl CspDirective {
     }
 }
 
-impl ToString for CspDirective {
-    fn to_string(&self) -> String {
-        let mut res = String::from(self.directive_type.as_ref());
-        self.values
-            .iter()
-            .for_each(|v| res.push_str(&format!(" {}", String::from(v.to_owned()))));
-        res
+impl Display for CspDirective {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let space = if self.values.is_empty() { "" } else { " " };
+        f.write_fmt(format_args!(
+            "{}{}{}",
+            self.directive_type.as_ref(),
+            space,
+            self.values
+                .iter()
+                .map(|v| String::from(v.to_owned()))
+                .collect::<Vec<String>>()
+                .join(" ")
+        ))
     }
 }
 
