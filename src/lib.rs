@@ -8,71 +8,79 @@ use std::fmt::{Debug, Display, Formatter};
 
 #[derive(Hash, Eq, PartialEq, Debug, Clone, Copy, Ord, PartialOrd)]
 pub enum CspDirectiveType {
+    BaseUri,
     ChildSrc,
     ConnectSrc,
     DefaultSrc,
+    // Experimental!
+    FencedFrameSrc,
     FontSrc,
+    FormAction,
+    FrameAncestors,
     FrameSrc,
     ImgSrc,
     ManifestSrc,
     MediaSrc,
-    ObjectSrc,
-    PrefetchSrc,
-    ScriptSource,
-    ScriptSourceElem,
-    StyleSource,
-    StyleSourceElem,
-    WorkerSource,
-    BaseUri,
-    Sandbox,
-    FormAction,
-    FrameAncestors,
     // Experimental!
     NavigateTo,
-    // Experimental/Deprecated, you should use this AND report-to
-    ReportUri,
+    ObjectSrc,
+    PrefetchSrc,
     // Experimental/Deprecated, you should use this AND report-uri
     ReportTo,
+    // Experimental/Deprecated, you should use this AND report-to
+    ReportUri,
     // Experimental!
     RequireTrustedTypesFor,
+    Sandbox,
+    ScriptSource,
+    ScriptSourceAttr,
+    ScriptSourceElem,
+    StyleSource,
+    StyleSourceAttr,
+    StyleSourceElem,
     // Experimental!
     TrustedTypes,
     UpgradeInsecureRequests,
+    WorkerSource,
 }
 
 impl AsRef<str> for CspDirectiveType {
     fn as_ref(&self) -> &str {
         match self {
+            CspDirectiveType::BaseUri => "base-uri",
             CspDirectiveType::ChildSrc => "child-src",
             CspDirectiveType::ConnectSrc => "connect-src",
             CspDirectiveType::DefaultSrc => "default-src",
-            CspDirectiveType::FrameSrc => "frame-src",
+            // Experimental!
+            CspDirectiveType::FencedFrameSrc => "fenced-frame-src",
             CspDirectiveType::FontSrc => "font-src",
+            CspDirectiveType::FormAction => "form-action",
+            CspDirectiveType::FrameAncestors => "frame-ancestors",
+            CspDirectiveType::FrameSrc => "frame-src",
             CspDirectiveType::ImgSrc => "img-src",
             CspDirectiveType::ManifestSrc => "manifest-src",
             CspDirectiveType::MediaSrc => "media-src",
-            CspDirectiveType::ObjectSrc => "object-src",
-            CspDirectiveType::PrefetchSrc => "prefetch-src",
-            CspDirectiveType::ScriptSource => "script-src",
-            CspDirectiveType::ScriptSourceElem => "script-src-elem",
-            CspDirectiveType::StyleSource => "style-src",
-            CspDirectiveType::StyleSourceElem => "style-src-elem",
-            CspDirectiveType::WorkerSource => "worker-src",
-            CspDirectiveType::BaseUri => "base-uri",
-            CspDirectiveType::Sandbox => "sandbox",
-            CspDirectiveType::FormAction => "form-action",
-            CspDirectiveType::FrameAncestors => "frame-ancestors",
             // Experimental!
             CspDirectiveType::NavigateTo => "navigate-to",
-            // Experimental/Deprecated, you should use this AND report-to
-            CspDirectiveType::ReportUri => "report-uri",
+            CspDirectiveType::ObjectSrc => "object-src",
+            CspDirectiveType::PrefetchSrc => "prefetch-src",
             // Experimental/Deprecated, you should use this AND report-uri
             CspDirectiveType::ReportTo => "report-to",
+            // Experimental/Deprecated, you should use this AND report-to
+            CspDirectiveType::ReportUri => "report-uri",
             // Experimental!
             CspDirectiveType::RequireTrustedTypesFor => "require-trusted-types-for",
+            CspDirectiveType::Sandbox => "sandbox",
+            CspDirectiveType::ScriptSourceAttr => "script-src-attr",
+            CspDirectiveType::ScriptSourceElem => "script-src-elem",
+            CspDirectiveType::ScriptSource => "script-src",
+            CspDirectiveType::StyleSourceAttr => "style-src-attr",
+            CspDirectiveType::StyleSourceElem => "style-src-elem",
+            CspDirectiveType::StyleSource => "style-src",
             // Experimental!
             CspDirectiveType::TrustedTypes => "trusted-types",
             CspDirectiveType::UpgradeInsecureRequests => "upgrade-insecure-requests",
+            CspDirectiveType::WorkerSource => "worker-src",
         }
     }
 }
