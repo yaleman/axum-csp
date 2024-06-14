@@ -47,40 +47,40 @@ pub enum CspDirectiveType {
 impl AsRef<str> for CspDirectiveType {
     fn as_ref(&self) -> &str {
         match self {
-            CspDirectiveType::BaseUri => "base-uri",
-            CspDirectiveType::ChildSrc => "child-src",
-            CspDirectiveType::ConnectSrc => "connect-src",
-            CspDirectiveType::DefaultSrc => "default-src",
+            Self::BaseUri => "base-uri",
+            Self::ChildSrc => "child-src",
+            Self::ConnectSrc => "connect-src",
+            Self::DefaultSrc => "default-src",
             // Experimental!
-            CspDirectiveType::FencedFrameSrc => "fenced-frame-src",
-            CspDirectiveType::FontSrc => "font-src",
-            CspDirectiveType::FormAction => "form-action",
-            CspDirectiveType::FrameAncestors => "frame-ancestors",
-            CspDirectiveType::FrameSrc => "frame-src",
-            CspDirectiveType::ImgSrc => "img-src",
-            CspDirectiveType::ManifestSrc => "manifest-src",
-            CspDirectiveType::MediaSrc => "media-src",
+            Self::FencedFrameSrc => "fenced-frame-src",
+            Self::FontSrc => "font-src",
+            Self::FormAction => "form-action",
+            Self::FrameAncestors => "frame-ancestors",
+            Self::FrameSrc => "frame-src",
+            Self::ImgSrc => "img-src",
+            Self::ManifestSrc => "manifest-src",
+            Self::MediaSrc => "media-src",
             // Experimental!
-            CspDirectiveType::NavigateTo => "navigate-to",
-            CspDirectiveType::ObjectSrc => "object-src",
-            CspDirectiveType::PrefetchSrc => "prefetch-src",
+            Self::NavigateTo => "navigate-to",
+            Self::ObjectSrc => "object-src",
+            Self::PrefetchSrc => "prefetch-src",
             // Experimental/Deprecated, you should use this AND report-uri
-            CspDirectiveType::ReportTo => "report-to",
+            Self::ReportTo => "report-to",
             // Experimental/Deprecated, you should use this AND report-to
-            CspDirectiveType::ReportUri => "report-uri",
+            Self::ReportUri => "report-uri",
             // Experimental!
-            CspDirectiveType::RequireTrustedTypesFor => "require-trusted-types-for",
-            CspDirectiveType::Sandbox => "sandbox",
-            CspDirectiveType::ScriptSourceAttr => "script-src-attr",
-            CspDirectiveType::ScriptSourceElem => "script-src-elem",
-            CspDirectiveType::ScriptSource => "script-src",
-            CspDirectiveType::StyleSourceAttr => "style-src-attr",
-            CspDirectiveType::StyleSourceElem => "style-src-elem",
-            CspDirectiveType::StyleSource => "style-src",
+            Self::RequireTrustedTypesFor => "require-trusted-types-for",
+            Self::Sandbox => "sandbox",
+            Self::ScriptSourceAttr => "script-src-attr",
+            Self::ScriptSourceElem => "script-src-elem",
+            Self::ScriptSource => "script-src",
+            Self::StyleSourceAttr => "style-src-attr",
+            Self::StyleSourceElem => "style-src-elem",
+            Self::StyleSource => "style-src",
             // Experimental!
-            CspDirectiveType::TrustedTypes => "trusted-types",
-            CspDirectiveType::UpgradeInsecureRequests => "upgrade-insecure-requests",
-            CspDirectiveType::WorkerSource => "worker-src",
+            Self::TrustedTypes => "trusted-types",
+            Self::UpgradeInsecureRequests => "upgrade-insecure-requests",
+            Self::WorkerSource => "worker-src",
         }
     }
 }
