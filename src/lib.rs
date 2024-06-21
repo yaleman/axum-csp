@@ -220,6 +220,7 @@ pub enum CspValue {
 
     UnsafeInline,
     UnsafeEval,
+    WasmUnsafeEval,
     UnsafeHashes,
     /// Experimental!
     UnsafeAllowRedirects,
@@ -255,6 +256,7 @@ impl From<CspValue> for String {
             CspValue::ReportSample => "'report-sample'".to_string(),
             CspValue::UnsafeInline => "'unsafe-inline'".to_string(),
             CspValue::UnsafeEval => "'unsafe-eval'".to_string(),
+            CspValue::WasmUnsafeEval => "'wasm-unsafe-eval'".to_string(),
             CspValue::UnsafeHashes => "'unsafe-hashes'".to_string(),
             CspValue::UnsafeAllowRedirects => "'unsafe-allow-redirects'".to_string(),
             CspValue::SchemeHttps => "https:".to_string(),
