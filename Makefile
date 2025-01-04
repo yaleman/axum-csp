@@ -45,3 +45,9 @@ prep: docs codespell test build semgrep
 	cargo clippy
 	cargo outdated -R
 	cargo audit
+
+.PHONY: coverage
+coverage: ## Generate coverage report
+coverage:
+	cargo tarpaulin --out Html
+    echo "Coverage file at file://$(PWD)/tarpaulin-report.html"

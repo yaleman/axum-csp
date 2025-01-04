@@ -88,7 +88,7 @@ dependencies = [
 
 [[package]]
 name = "axum-csp"
-version = "0.0.8"
+version = "0.0.9"
 dependencies = [
  "axum",
  "regex",
