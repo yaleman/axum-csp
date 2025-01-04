@@ -3,18 +3,34 @@ use axum_csp::{CspDirective, CspDirectiveType, CspHeaderBuilder, CspUrlMatcher, 
 use regex::RegexSet;
 
 #[test]
+fn test_cspdirectivetype_string() {
+    let directive = CspDirectiveType::ImgSrc;
+    assert_eq!(directive.to_string(), "img-src");
+}
+
+#[test]
 fn test_example() {
-    let csp_matchers = vec![CspUrlMatcher {
-        matcher: RegexSet::new([r#"/hello"#]).unwrap(),
-        directives: vec![CspDirective::from(
+    let csp_matchers = vec![
+        CspUrlMatcher {
+            matcher: RegexSet::new([r#"/hello"#]).expect("Failed to build a regex"),
+            directives: vec![],
+        }
+        .with_directive(CspDirective::from(
             CspDirectiveType::DefaultSrc,
             vec![CspValue::SelfSite],
-        )],
-    }];
+        ))
+        .to_owned(),
+        CspUrlMatcher::new(RegexSet::new([r#"/hello"#]).expect("Failed to build a regex")),
+        CspUrlMatcher::default_self(RegexSet::new([r#"/hello"#]).expect("Failed to build a regex")),
+        CspUrlMatcher::default_all_self(),
+    ];
 
     assert!(!csp_matchers.is_empty());
     for matcher in csp_matchers {
         assert!(matcher.matcher.is_match("/hello"));
+        assert!(matcher.is_match("/hello"));
+
+        let _header: HeaderValue = matcher.into();
     }
 }
 
@@ -27,6 +43,9 @@ fn test_directive_to_string() {
 
     let res = directive.to_string();
     assert_eq!(res, "img-src 'self' https:".to_string());
+
+    let header: HeaderValue = directive.into();
+    assert!(header == "img-src 'self' https:".to_string());
 }
 
 #[test]
