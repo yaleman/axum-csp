@@ -20,10 +20,8 @@ jobs:
             target/
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
       - uses: actions/checkout@v5
-      - name: Install Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
+      - name: Install rust stable
+        uses: actions-rust-lang/setup-rust-toolchain@v1
       - name: Build Debug
         run: cargo build --release
       - name: Build Release
