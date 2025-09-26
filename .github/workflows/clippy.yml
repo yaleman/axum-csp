@@ -31,7 +31,5 @@ jobs:
           override: true
           default: true
       - name: "Run clippy"
-        uses: actions-rs/cargo@v1
-        with:
-          command: clippy
-
+        run: rustup component install cargo-clippy
+          cargo clippy
