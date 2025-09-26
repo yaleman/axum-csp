@@ -45,7 +45,7 @@ fn test_directive_to_string() {
     assert_eq!(res, "img-src 'self' https:".to_string());
 
     let header: HeaderValue = directive.into();
-    assert!(header == "img-src 'self' https:".to_string());
+    assert!(header == "img-src 'self' https:");
 }
 
 #[test]
