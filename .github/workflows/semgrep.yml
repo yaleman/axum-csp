@@ -17,7 +17,7 @@ jobs:
 
     steps:
         # Fetch project source with GitHub Actions Checkout.
-        - uses: actions/checkout@v5
+        - uses: actions/checkout@v6
         - name: Run semgrep
           run: |
             ls -lah
