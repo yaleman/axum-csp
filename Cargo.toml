@@ -18,5 +18,5 @@ axum = { workspace = true, default-features = false }
 regex = { workspace = true }
 
 [workspace.dependencies]
-axum = { version = "0.8.6", default-features = false }
+axum = { version = "0.8.7", default-features = false }
 regex = "1.12.2"
