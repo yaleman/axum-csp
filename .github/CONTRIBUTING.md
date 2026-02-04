@@ -1,4 +1,4 @@
-# How to contribute to goatns
+# How to contribute to axum-csp
 
 ## Join the community
 
@@ -6,8 +6,8 @@
 
 ## Send your suggestions using one of these methods:
 
-- as a [pull request](https://github.com/yaleman/goatns/pulls)
+- as a [pull request](https://github.com/yaleman/axum-csp/pulls)
 
-- as [an issue](https://github.com/yaleman/goatns/issues/new)
+- as [an issue](https://github.com/yaleman/axum-csp/issues/new)
 
 Thanks!
